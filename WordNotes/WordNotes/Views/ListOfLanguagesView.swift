@@ -47,7 +47,8 @@ struct DetailView: View {
     var body: some View {
         NavigationStack {
             List {
-                Text("")
+                Text("Бабушка")
+                    .font(.headline)
                     .padding()
                 
                 
