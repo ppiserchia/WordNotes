@@ -1,62 +1,65 @@
 //
-//  SingleLanguageView.swift
+//  AddALanguageViewNEW
 //  WordNotes
 //
-//  Created by Pasquale Piserchia on 06/12/24.
+//  Created by Pasquale Piserchia on 11/12/24.
 //
 
 import SwiftUI
-struct AddAlanguageView: View {
-    @State var language: String = ""
-    @State private var languages = ["Russian 🇷🇺",
-                                    "Spanish 🇪🇸",
-                                    "French 🇫🇷",
-                                    "Japanese 🇯🇵",
-                                    "Italian 🇮🇹",
-                                    "English 🇬🇧",
-                                    "Swedish 🇸🇪",
-                                    "Portuguese 🇵🇹"]
-  
-    @State private var showModal: Bool = false
-    @State private var selectedLanguage: String?
-    
-    var body: some View {
-        NavigationStack {
-            List(languages.indices, id: \.self) { index in
-                HStack {
-                    Text(languages[index])
-                    Spacer()
-                    if selectedLanguage == languages[index] {
-                        Image(systemName: "checkmark")
-                            .foregroundColor(Color.blue)
-                    }
-                }
-                
-                .contentShape(Rectangle()) // Rende cliccabile l'intero elemento
-                .onTapGesture {
-                    selectedLanguage = (selectedLanguage == languages[index]) ? nil : languages[index]
-                }
-                
-                .navigationTitle("Add a Language")
-                .navigationBarTitleDisplayMode(.large)
-            }
-            .toolbar {
-                ToolbarItem {
-                    Button {
-                        showModal.toggle()
-                    } label: {
-                        Text("Add")
-                    }
-                }
-            }
-        }
-        
-    }
-}
-    
-      
-
-        #Preview {
-            AddAlanguageView()
-        }
-    
+//
+//struct AddaLanguageView: View {
+//    @ObservedObject var languageVM = LanguageViewModel() // Use @State for observable objects
+//    @Binding var showModal: Bool // Show the sheet
+//    var add: (_ language: LanguageViewModel) -> Void
+//
+//    @State private var selectedLanguage: String? // Track the selected language
+//    @State private var emoji: String?
+//    
+//    
+//    var body: some View {
+//        //NavigationStack is used for letting work the .navigationTitle modifier
+//        NavigationStack {
+//            List {
+//                ForEach(languageVM.language) { language in
+//                    HStack {
+//                        Text(language.language)
+//                        Text(language.emoji)
+//                        if selectedLanguage == language.Language {
+//                            
+//                            Spacer()
+//                            Image(systemName: "checkmark")
+//                                .foregroundColor(.blue)
+//                        }
+//                    }
+//                    .contentShape(Rectangle()) // Make the item tappable
+//                    .onTapGesture {
+//                        selectedLanguage = language.language // Update the selected language
+//                    }
+//                }
+//            }
+//            
+//            //Add a title to the view
+//            .navigationTitle("Add a language")
+//            .toolbar {
+//                ToolbarItem(placement: .topBarLeading) {
+//                    Button("Cancel") {
+//                        showModal.toggle()
+//                    }
+//                }
+//            }
+//            .toolbar {
+//                ToolbarItem(placement: .topBarTrailing) {
+//                    Button("Add") {
+//                        let newLanguage = Language(language:, emoji: emoji)
+//                        add(newLanguage)
+//                        showModal.toggle()
+//                    }
+//                }
+//            }
+//         }
+//      }
+//  }
+//
+//#Preview {
+//    AddaLanguageView()
+//}

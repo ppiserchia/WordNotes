@@ -1,56 +1,63 @@
 //
-//  AddALanguageViewNEW
+//  SingleLanguageView.swift
 //  WordNotes
 //
-//  Created by Pasquale Piserchia on 11/12/24.
+//  Created by Pasquale Piserchia on 06/12/24.
 //
-
 import SwiftUI
 
-struct AddaLanguageView: View {
-    @State var languageVM = LanguageViewModel() // Use @State for observable objects
-    @State private var selectedLanguage: String? // Track the selected language
-    @State private var showModal: Bool = false // Show the sheet
-
+struct AddALanguageView: View {
+    @State var languageVM: LanguageViewModel
+    @Binding var showModal: Bool
+    var add: (_ newLanguage: Language) -> Void
     
-//    var add: (_ language: LanguageViewModel.Language) -> Void
-        
+    @State private var selectedLanguage: String? // Track the selected language
+    @State private var newLanguageName: String = "" // New language name
+    @State private var newLanguageEmoji: String = "" // New language emoji
+    
     var body: some View {
         NavigationStack {
-            List {
-                ForEach(languageVM.languageExisting) { language in
-                    HStack {
-                        Text(language.language)
-                        Text(language.emoji)
-                        if selectedLanguage == language.language {
-                            
-                            Spacer()
-                            Image(systemName: "checkmark")
-                                .foregroundColor(.blue)
-                        }
+            VStack {
+                
+                Form {
+                    Section("Language") {
+                        TextField("Enter Language Name", text: $newLanguageName)
+                            .padding()
                     }
-                    .contentShape(Rectangle()) // Make the row tappable
-                    .onTapGesture {
-                        selectedLanguage = language.language // Update the selected language
+                    Section("Emoji") {
+                        TextField("Enter Emoji", text: $newLanguageEmoji)
+                            .padding()
                     }
                 }
+                
             }
-            .navigationTitle("Add a language")
+        
+            .navigationTitle("Add a Language")
             .toolbar {
-                ToolbarItem {
-                    Button {
-                        //                        let newLanguage = Language (language: language, emoji: emoji)
-                        //                        add(newLearner)
-                        showModal.toggle()
-                    } label: {
-                        Text("Add")
+                ToolbarItem(placement: .topBarLeading) {
+                    Button("Cancel") {
+                        showModal = false
+                    }
+                }
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button("Add") {
+                        // Add a new language to the ViewModel
+                        if !newLanguageName.isEmpty && !newLanguageEmoji.isEmpty {
+                            let newLanguage = Language(language: newLanguageName, emoji: newLanguageEmoji)
+                            add(newLanguage)
+                            showModal = false
+                        }
                     }
                 }
             }
         }
     }
 }
-#Preview {
-    AddaLanguageView()
-}
 
+#Preview {
+    AddALanguageView(
+        languageVM: LanguageViewModel(),
+        showModal: .constant(false),
+        add: { _ in }
+    )
+}
