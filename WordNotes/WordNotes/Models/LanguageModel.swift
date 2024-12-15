@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-struct LanguageModel: Identifiable {
+struct Language: Identifiable {
     var id: UUID = UUID()
     
     var language: String

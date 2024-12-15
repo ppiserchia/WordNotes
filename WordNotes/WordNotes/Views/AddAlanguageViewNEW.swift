@@ -1,5 +1,5 @@
 //
-//  SingleLanguageView.swift
+//  AddALanguageView.swift
 //  WordNotes
 //
 //  Created by Pasquale Piserchia on 06/12/24.
@@ -22,6 +22,7 @@ struct AddALanguageView: View {
                 Form {
                     Section("Language") {
                         TextField("Enter Language Name", text: $newLanguageName)
+                            .autocapitalization(.none)
                             .padding()
                     }
                     Section("Emoji") {
@@ -36,7 +37,7 @@ struct AddALanguageView: View {
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     Button("Cancel") {
-                        showModal = false
+                        showModal.toggle()
                     }
                 }
                 ToolbarItem(placement: .topBarTrailing) {

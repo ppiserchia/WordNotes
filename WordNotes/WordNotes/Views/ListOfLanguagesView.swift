@@ -8,24 +8,32 @@
 import SwiftUI
 
 struct ListOfLanguagesView: View {
-@State private var showModal: Bool = false
-
-    var languages = [
-        "Russian 🇷🇺"
-    ]
+    @State var showModal = false // Use @State so the Modal can open and close
+    @State private var languageVM = LanguageViewModel() // Grab the items from the ViewModel
     
     var body: some View {
+        
         NavigationStack {
-            List(languages, id: \.self) { language in
-                NavigationLink(destination: DetailView(language: language)) {
-                    Text(language)
+            
+            List {
+                ForEach (languageVM.language, id: \.language) { language in
+                    NavigationLink(destination: DetailView(language: language.language, emoji: language.emoji)) {
+                        HStack {
+                            Text(language.language)
+                            Text(language.emoji)
+                            
+                        }
+                    }
                 }
-                .sheet(isPresented: $showModal, content: {
-                    AddaLanguageView()
-                    })
-                
+                .onDelete(perform: languageVM.delete)
             }
-            .navigationTitle("Languages")
+            
+           
+            // Modifier for adding a title
+            .navigationTitle("Welcome! 📝")
+            
+            // Add a button that adds a language
+            
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button {
@@ -35,29 +43,33 @@ struct ListOfLanguagesView: View {
                     }
                 }
             }
+            .sheet(isPresented: $showModal) {
+                AddALanguageView(
+                    languageVM: languageVM,
+                    showModal: $showModal,
+                    add: { newLanguage in
+                        languageVM.add(newLanguage)
+                    }
+                )
+            }
         }
     }
 }
-    //View di ogni singola lingua
 
+/// View for a single language
 struct DetailView: View {
     @State private var showModal: Bool = false
     let language: String
+    let emoji: String
     
     var body: some View {
         NavigationStack {
             List {
-                Text("Бабушка")
+                Text("Details for \(language) \(emoji)")
                     .font(.headline)
-                    .padding()
-                
-                
-                
             }
-            .sheet(isPresented: $showModal, content: {
-                AddWordView()
-            })
-            .navigationTitle("\(language)")
+            .navigationTitle("\(language) \(emoji)")
+
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button {
@@ -67,71 +79,16 @@ struct DetailView: View {
                     }
                 }
             }
+            .sheet(isPresented: $showModal) {
+                AddWordView()
+            }
         }
     }
 }
-    #Preview {
-        ListOfLanguagesView()
-    }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    //struct ListOfLanguagesView: View {
-    //    @State private var languages = [
-    //        ("Russian 🇷🇺", RussianView()),
-    //                                    "French 🇫🇷",
-    //                                    "German 🇩🇪", "Italian 🇮🇹", "English 🇬🇧", "Swedish 🇸🇪", "Portuguese 🇵🇹"]
-    //    @State private var showModal = false
-    //
-    //    var body: some View {
-    //        NavigationStack {
-    //            List(languages.indices, id: \.self) { index in
-    //                HStack {
-    //                    Text(languages[index])
-    //                    Spacer()
-    //                    Image(systemName: "chevron.right")
-    //                        .foregroundColor(.gray)
-    //                }
-    //                .sheet(isPresented: $showModal, content: {
-    //                    AddAlanguageView()
-    //                })
-    //
-    //                .navigationTitle("Languages")
-    //                .navigationBarTitleDisplayMode(.large)
-    //            }
-    //                .toolbar {
-    //                    ToolbarItem {
-    //                        Button {
-    //                            showModal.toggle()
-    //                        } label: {
-    //                            Image(systemName: "plus")
-    //                        }
-    //                    }
-    //                }
-    //
-    //            }
-    //        }
-    //    }
-    //
-//    #Preview {
-//        ListOfLanguagesView()
-//    }
-//    
+
+
+#Preview {
+    ListOfLanguagesView()
+}
+
 

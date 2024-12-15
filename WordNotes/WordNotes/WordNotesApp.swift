@@ -11,7 +11,7 @@ import SwiftUI
 struct WordNotesApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ListOfLanguagesView()
         }
     }
 }

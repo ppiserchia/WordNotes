@@ -9,20 +9,26 @@ import Foundation
 import SwiftUI
 
 @Observable class LanguageViewModel {
-   var languageExisting = [
-       LanguageModel(language: "English", emoji: "🇬🇧"),
-       LanguageModel(language: "French", emoji: "🇫🇷"),
-       LanguageModel(language: "Spanish", emoji: "🇪🇸"),
-       LanguageModel(language: "Italian", emoji: "🇮🇹"),
-       LanguageModel(language: "German", emoji: "🇩🇪"),
-       LanguageModel(language: "Portuguese", emoji: "🇵🇹")
+    var language = [
+        Language(language: "English", emoji: "🇬🇧"),
+        Language(language: "French", emoji: "🇫🇷"),
+        Language(language: "Spanish", emoji: "🇪🇸"),
+        Language(language: "Italian", emoji: "🇮🇹"),
+        Language(language: "German", emoji: "🇩🇪"),
+        Language(language: "Portuguese", emoji: "🇵🇹"),
+        Language(language: "Russian", emoji: "🇷🇺"),
     ]
+    
+    
+    func add(_ newLanguage: Language) {
+        self.language.insert(newLanguage, at: 0)
+    }
+
+
+func delete(at offsets: IndexSet) {
+    language.remove(atOffsets: offsets)
 }
-
-//func add(_LanguageExisting: languageExisting) {
-//    self.languageExisting.insert(language, at: 0)
-//}
-
+}
 
 //
 //    struct AddLanguage: Identifiable {
