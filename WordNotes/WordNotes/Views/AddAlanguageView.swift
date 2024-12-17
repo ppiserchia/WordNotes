@@ -7,8 +7,13 @@
 import SwiftUI
 
 struct AddALanguageView: View {
-    @State var languageVM: LanguageViewModel
+    
+    
+    @EnvironmentObject var languageVM: LanguageViewModel
+
+//    @State var languageVM = LanguageViewModel ()
     @Binding var showModal: Bool
+    
     var add: (_ newLanguage: Language) -> Void
     
     @State private var selectedLanguage: String? // Track the selected language
@@ -22,7 +27,6 @@ struct AddALanguageView: View {
                 Form {
                     Section("Language") {
                         TextField("Enter Language Name", text: $newLanguageName)
-                            .autocapitalization(.none)
                             .padding()
                     }
                     Section("Emoji") {
@@ -44,8 +48,8 @@ struct AddALanguageView: View {
                     Button("Add") {
                         // Add a new language to the ViewModel
                         if !newLanguageName.isEmpty && !newLanguageEmoji.isEmpty {
-                            let newLanguage = Language(language: newLanguageName, emoji: newLanguageEmoji)
-                            add(newLanguage)
+                            let userLanguage = Language(language: newLanguageName, emoji: newLanguageEmoji)
+                            add(userLanguage)
                             showModal = false
                         }
                     }
@@ -55,10 +59,10 @@ struct AddALanguageView: View {
     }
 }
 
-#Preview {
-    AddALanguageView(
-        languageVM: LanguageViewModel(),
-        showModal: .constant(false),
-        add: { _ in }
-    )
-}
+//#Preview {
+//    AddALanguageView(
+//        languageVM: LanguageViewModel(),
+//        showModal: .constant(false),
+//        add: { language in }
+//    )
+//}
