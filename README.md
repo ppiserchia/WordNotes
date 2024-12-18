@@ -1,2 +1,4 @@
 # WordNotes
-An iOS App for taking notes of the word you've learned, during the learning process of a language
+A simple iOS App built in Xcode that helps the user learn languages, taking notes of the words they're learning!
+
+This app begins with a list of the languages the user is learning. 
