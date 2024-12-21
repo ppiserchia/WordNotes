@@ -8,31 +8,26 @@
 import SwiftUI
 
 struct ListOfLanguagesView: View {
-    @State var showModal = false // Use @State so the Modal can open and close
-    @State private var languageVM = LanguageViewModel() // Grab the items from the ViewModel
-    
+    @State private var showModal = false // Use @State for modal
+    @EnvironmentObject var languageVM: LanguageViewModel // it lets grab the data from tht ViewModel
+    @EnvironmentObject var wordVM: WordViewModel // it lets grab the data from tht ViewModel
+
     var body: some View {
-        
         NavigationStack {
-            
             List {
-                ForEach (languageVM.language, id: \.language) { language in
-                    NavigationLink(destination: DetailView(language: language.language, emoji: language.emoji)) {
+                ForEach(languageVM.languages, id: \.id) { language in
+                    NavigationLink(destination: DetailView(language: language)) {
                         HStack {
                             Text(language.language)
                             Text(language.emoji)
-                            
                         }
                     }
                 }
                 .onDelete(perform: languageVM.delete)
             }
+            .navigationTitle("Welcome! 📝") // Title
             
-           
-            // Modifier for adding a title
-            .navigationTitle("Welcome! 📝")
-            
-            // Add a button that adds a language
+            ///TOOLBAR SECTION
             
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
@@ -43,52 +38,67 @@ struct ListOfLanguagesView: View {
                     }
                 }
             }
+            
+            
+            /// Create the sheet
+            
             .sheet(isPresented: $showModal) {
                 AddALanguageView(
-                    languageVM: languageVM,
                     showModal: $showModal,
-                    add: { newLanguage in
-                        languageVM.add(newLanguage)
+                    add: { language in
+                        languageVM.add(language)
                     }
                 )
+                .environmentObject(languageVM)
             }
         }
     }
 }
 
-/// View for a single language
+     /// Detail View of Each Language
+
 struct DetailView: View {
-    @State private var showModal: Bool = false
-    let language: String
-    let emoji: String
-    
+    @EnvironmentObject var wordVM: WordViewModel
+    let language: Language
+    @State private var addWord = false
+
     var body: some View {
         NavigationStack {
             List {
-                Text("Details for \(language) \(emoji)")
-                    .font(.headline)
+                Section(header: Text("Words")) {
+                    ForEach(wordVM.words.filter { $0.language == language }) { word in
+                        NavigationLink(destination: DetailedWordView(language: language, word: word)) {
+                            VStack(alignment: .leading) {
+                                Text(word.word)
+                                    .font(.headline)
+                                
+                                Text("Translation: \(word.translation)")
+                                    .font(.subheadline)
+                                    .foregroundColor(.gray)
+                            }
+                        }
+                    }
+                }
             }
-            .navigationTitle("\(language) \(emoji)")
-
+            .navigationTitle("\(language.language) \(language.emoji)")
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button {
-                        showModal.toggle()
-                    } label: {
+                    Button(action: { addWord = true }) {
                         Image(systemName: "plus")
                     }
                 }
             }
-            .sheet(isPresented: $showModal) {
-                AddWordView()
+            .sheet(isPresented: $addWord) {
+                AddWordView(addWord: $addWord, selectedLanguage: language)
+                    .environmentObject(wordVM)
             }
         }
     }
 }
 
-
 #Preview {
     ListOfLanguagesView()
+        .environmentObject(LanguageViewModel())
+        .environmentObject(WordViewModel())
 }
-
 

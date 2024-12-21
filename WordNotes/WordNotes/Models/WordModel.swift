@@ -6,16 +6,12 @@
 //
 
 import Foundation
-import SwiftUI
 
-struct Word: Identifiable {
-    var id: UUID = UUID()
-    
-    var word: String
-    var eventualTransliteration: String
-    var translation: String
-    var meaning: String
-//    var language: Language
+struct Word: Identifiable, Hashable {
+    let id = UUID()
+    let word: String
+    let eventualTransliteration: String
+    let translation: String
+    let meaning: String
+    let language: Language
 }
-
-

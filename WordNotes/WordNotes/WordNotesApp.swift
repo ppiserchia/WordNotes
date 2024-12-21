@@ -9,9 +9,15 @@ import SwiftUI
 
 @main
 struct WordNotesApp: App {
+    
+    @ObservedObject var languageVM = LanguageViewModel()
+    @ObservedObject var wordVM = WordViewModel()
+
     var body: some Scene {
         WindowGroup {
             ListOfLanguagesView()
+                .environmentObject(languageVM)
+                .environmentObject(wordVM)
         }
     }
 }
