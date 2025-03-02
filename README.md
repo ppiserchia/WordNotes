@@ -3,7 +3,7 @@ A simple iOS App built in Xcode that helps the user learn languages, taking note
 
 # Features
 This app begins with a list of the languages the user is learning. 
-![3FA1223C-65B8-478A-B2F3-8374A544C3E2_1_201_a](https://github.com/user-attachments/assets/30c71952-81a5-463b-b53d-750d26bfad71)
+![Webp net-resizeimage](https://github.com/user-attachments/assets/1dae5f9d-b9a1-40aa-bd6b-fcd30995bf82)
 
 Whenever the user wants, he can add a new language, by clicking the plus button, located on the top right of the screen. A modal will appear:
 ![Progetto senza titolo](https://github.com/user-attachments/assets/ca093cc9-9fc3-4c0a-b7f7-06dd6dd0a62b)
